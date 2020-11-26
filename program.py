@@ -22,7 +22,7 @@ def clean_data(data):
     print('[MASTER] Limpando valores nulos e flutuantes')
     for column in data.columns:
         if data[column].dtype == float:
-            data[column] = data[column].astype(str).str.split('.')[0]
+            data[column] = data[column].astype(str).apply(lambda x: x.split('.')[0] if '.' in x else x)
         else:
             data[column] = data[column].astype(str)
     return data
@@ -66,7 +66,7 @@ def join_file(h,t,d1,d2,d3):
     remessas = []
     if len(h) == len(t) == len(d1) == len(d2) == len(d3):
         for i in range(len(h)):
-            remessas.append(h[i]+t[i]+d1[i]+d2[i]+d3[i])
+            remessas.append(h[i]+'\n'+t[i]+'\n'+d1[i]+'\n'+d2[i]+'\n'+d3[i])
     else:
         print('[MASTER] Algo deu errado =[')
     return remessas
@@ -98,4 +98,4 @@ if __name__ == '__main__':
     with open('remessa.txt', 'w', encoding='utf-8') as f:
         for remessa in remessas:
             f.write(remessa+'\r\n')
-    print('Arquivo remessa.txt criado!')
+    print('[MASTER] Arquivo remessa.txt criado!')
